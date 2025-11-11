@@ -1,0 +1,10 @@
+{
+  "name": "claude-hooks",
+  "version": "1.0.0",
+  "description": "Claude Code hook dependencies",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "tsx": "^4.7.0"
+  }
+}

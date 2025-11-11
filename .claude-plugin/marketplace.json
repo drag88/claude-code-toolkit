@@ -1,0 +1,26 @@
+{
+  "name": "claude-code-toolkit",
+  "metadata": {
+    "description": "Productivity tools for Claude Code development workflows",
+    "version": "1.0.0"
+  },
+  "owner": {
+    "name": "Aswin Sreenivas",
+    "email": "awinsreenivas@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "claude-code-toolkit",
+      "source": "./claude-code-toolkit",
+      "description": "Development workflow commands and automation hooks for enhanced productivity",
+      "version": "1.0.0",
+      "author": {
+        "name": "Ashwin Sreenivas"
+      },
+      "category": "productivity",
+      "tags": ["automation", "workflow", "development", "hooks"],
+      "license": "MIT",
+      "strict": false
+    }
+  ]
+}
