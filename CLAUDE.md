@@ -33,14 +33,14 @@ Unresolved Questions:
 
 ```bash
 # Search protocol
-rg "def function_name"          # Similar functions
-rg "class.*Pattern"             # Similar classes  
-rg "business.*logic"            # Similar logic
+rg "def function_name" # Similar functions
+rg "class.*Pattern" # Similar classes
+rg "business.*logic" # Similar logic
 ```
 
 **Rules**:
 - ❌ No duplicate functions/logic
-- ❌ No copy-paste between modules  
+- ❌ No copy-paste between modules
 - ❌ No "slightly different" versions
 - ✅ Extract common logic to shared utilities
 - ✅ Refactor duplications when found
@@ -78,12 +78,12 @@ If writing similar code to existing, STOP and refactor for reuse.
 ### Architecture
 ```
 src/project/
-  main.py
-  tests/{test_main.py, conftest.py}
-  database/{connection.py, models.py, tests/}
-  auth/{authentication.py, authorization.py, tests/}
-  features/
-    user_management/{handlers.py, validators.py, tests/}
+main.py
+tests/{test_main.py, conftest.py}
+database/{connection.py, models.py, tests/}
+auth/{authentication.py, authorization.py, tests/}
+features/
+user_management/{handlers.py, validators.py, tests/}
 ```
 
 ---
@@ -116,15 +116,15 @@ uv python install 3.12
 
 ```bash
 # Testing
-uv run pytest                                    # All tests
-uv run pytest tests/test_module.py -v           # Specific, verbose
-uv run pytest --cov=src --cov-report=html       # Coverage
+uv run pytest # All tests
+uv run pytest tests/test_module.py -v # Specific, verbose
+uv run pytest --cov=src --cov-report=html # Coverage
 
 # Code quality
-uv run ruff format .                            # Format
-uv run ruff check . --fix                       # Lint & auto-fix
-uv run mypy src/                                # Type check
-uv run pre-commit run --all-files               # Pre-commit
+uv run ruff format . # Format
+uv run ruff check . --fix # Lint & auto-fix
+uv run mypy src/ # Type check
+uv run pre-commit run --all-files # Pre-commit
 ```
 
 ---
@@ -158,29 +158,25 @@ Use Google-style for all public functions/classes:
 
 ```python
 def calculate_discount(
-    price: Decimal,
-    discount_percent: float,
-    min_amount: Decimal = Decimal("0.01")
+price: Decimal,
+discount_percent: float,
+min_amount: Decimal = Decimal("0.01")
 ) -> Decimal:
-    """
-    Calculate discounted price for a product.
-    
-    Args:
-        price: Original price of product
-        discount_percent: Discount percentage (0-100)
-        min_amount: Minimum allowed final price
-    
-    Returns:
-        Final price after discount
-    
-    Raises:
-        ValueError: If discount_percent not in 0-100
-        ValueError: If final price below min_amount
-    
-    Example:
-        >>> calculate_discount(Decimal("100"), 20)
-        Decimal('80.00')
-    """
+"""
+Calculate discounted price for a product.
+Args:
+price: Original price of product
+discount_percent: Discount percentage (0-100)
+min_amount: Minimum allowed final price
+Returns:
+Final price after discount
+Raises:
+ValueError: If discount_percent not in 0-100
+ValueError: If final price below min_amount
+Example:
+>>> calculate_discount(Decimal("100"), 20)
+Decimal('80.00')
+"""
 ```
 </docstring_standard>
 
@@ -205,20 +201,20 @@ from datetime import datetime
 
 @pytest.fixture
 def sample_user():
-    """Provide sample user for testing."""
-    return User(id=123, name="Test User", email="test@example.com")
+"""Provide sample user for testing."""
+return User(id=123, name="Test User", email="test@example.com")
 
 def test_user_can_update_email_when_valid(sample_user):
-    """Test users can update email with valid input."""
-    new_email = "newemail@example.com"
-    sample_user.update_email(new_email)
-    assert sample_user.email == new_email
+"""Test users can update email with valid input."""
+new_email = "newemail@example.com"
+sample_user.update_email(new_email)
+assert sample_user.email == new_email
 
 def test_user_update_email_fails_with_invalid_format(sample_user):
-    """Test invalid email formats are rejected."""
-    with pytest.raises(ValidationError) as exc_info:
-        sample_user.update_email("not-an-email")
-    assert "Invalid email format" in str(exc_info.value)
+"""Test invalid email formats are rejected."""
+with pytest.raises(ValidationError) as exc_info:
+sample_user.update_email("not-an-email")
+assert "Invalid email format" in str(exc_info.value)
 ```
 
 **Organization**:
@@ -238,27 +234,27 @@ def test_user_update_email_fails_with_invalid_format(sample_user):
 
 ```python
 class PaymentError(Exception):
-    """Base exception for payment errors."""
-    pass
+"""Base exception for payment errors."""
+pass
 
 class InsufficientFundsError(PaymentError):
-    """Raised when account has insufficient funds."""
-    def __init__(self, required: Decimal, available: Decimal):
-        self.required = required
-        self.available = available
-        super().__init__(
-            f"Insufficient funds: required {required}, available {available}"
-        )
+"""Raised when account has insufficient funds."""
+def __init__(self, required: Decimal, available: Decimal):
+self.required = required
+self.available = available
+super().__init__(
+f"Insufficient funds: required {required}, available {available}"
+)
 
 # Usage
 try:
-    process_payment(amount)
+process_payment(amount)
 except InsufficientFundsError as e:
-    logger.warning(f"Payment failed: {e}")
-    return PaymentResult(success=False, reason="insufficient_funds")
+logger.warning(f"Payment failed: {e}")
+return PaymentResult(success=False, reason="insufficient_funds")
 except PaymentError as e:
-    logger.error(f"Payment error: {e}")
-    return PaymentResult(success=False, reason="payment_error")
+logger.error(f"Payment error: {e}")
+return PaymentResult(success=False, reason="payment_error")
 ```
 </exception_handling>
 
@@ -269,17 +265,17 @@ from contextlib import contextmanager
 
 @contextmanager
 def database_transaction():
-    """Provide transactional scope for database operations."""
-    conn = get_connection()
-    trans = conn.begin_transaction()
-    try:
-        yield conn
-        trans.commit()
-    except Exception:
-        trans.rollback()
-        raise
-    finally:
-        conn.close()
+"""Provide transactional scope for database operations."""
+conn = get_connection()
+trans = conn.begin_transaction()
+try:
+yield conn
+trans.commit()
+except Exception:
+trans.rollback()
+raise
+finally:
+conn.close()
 ```
 
 ---
@@ -295,24 +291,24 @@ from functools import wraps
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+level=logging.INFO,
+format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
 # Decorator for function logging
 def log_execution(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        logger.info(f"Executing {func.__name__}")
-        try:
-            result = func(*args, **kwargs)
-            logger.info(f"Completed {func.__name__}")
-            return result
-        except Exception as e:
-            logger.error(f"Error in {func.__name__}: {str(e)}")
-            raise
-    return wrapper
+@wraps(func)
+def wrapper(*args, **kwargs):
+logger.info(f"Executing {func.__name__}")
+try:
+result = func(*args, **kwargs)
+logger.info(f"Completed {func.__name__}")
+return result
+except Exception as e:
+logger.error(f"Error in {func.__name__}: {str(e)}")
+raise
+return wrapper
 ```
 </logging_strategy>
 
@@ -326,16 +322,15 @@ Models mirror database fields exactly - no field mapping complexity.
 
 ```python
 class Lead(BaseModel):
-    lead_id: UUID = Field(default_factory=uuid4)  # Matches database
-    session_id: UUID                               # Matches database
-    agency_id: str                                 # Matches database
-    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
-    
-    model_config = ConfigDict(
-        use_enum_values=True,
-        populate_by_name=True,
-        alias_generator=None  # Use exact field names
-    )
+lead_id: UUID = Field(default_factory=uuid4) # Matches database
+session_id: UUID # Matches database
+agency_id: str # Matches database
+created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+model_config = ConfigDict(
+use_enum_values=True,
+populate_by_name=True,
+alias_generator=None # Use exact field names
+)
 ```
 </naming_conventions>
 
@@ -344,13 +339,13 @@ class Lead(BaseModel):
 ```python
 router = APIRouter(prefix="/api/v1/leads", tags=["leads"])
 
-@router.get("/{lead_id}")              # GET /api/v1/leads/{lead_id}
-@router.put("/{lead_id}")              # PUT /api/v1/leads/{lead_id}
-@router.delete("/{lead_id}")           # DELETE /api/v1/leads/{lead_id}
+@router.get("/{lead_id}") # GET /api/v1/leads/{lead_id}
+@router.put("/{lead_id}") # PUT /api/v1/leads/{lead_id}
+@router.delete("/{lead_id}") # DELETE /api/v1/leads/{lead_id}
 
 # Sub-resources
-@router.get("/{lead_id}/messages")     # GET /api/v1/leads/{lead_id}/messages
-@router.get("/agency/{agency_id}")     # GET /api/v1/leads/agency/{agency_id}
+@router.get("/{lead_id}/messages") # GET /api/v1/leads/{lead_id}/messages
+@router.get("/agency/{agency_id}") # GET /api/v1/leads/agency/{agency_id}
 ```
 
 ---
@@ -375,23 +370,22 @@ from typing import List
 router = APIRouter(prefix="/products", tags=["products"])
 
 @router.get(
-    "/",
-    response_model=List[Product],
-    summary="List all products",
-    description="Retrieve paginated list of all active products"
+"/",
+response_model=List[Product],
+summary="List all products",
+description="Retrieve paginated list of all active products"
 )
 async def list_products(
-    skip: int = 0,
-    limit: int = 100,
-    category: Optional[str] = None
+skip: int = 0,
+limit: int = 100,
+category: Optional[str] = None
 ) -> List[Product]:
-    """
-    Retrieve products with optional filtering.
-    
-    - **skip**: Number of products to skip (pagination)
-    - **limit**: Maximum number of products to return
-    - **category**: Filter by product category
-    """
+"""
+Retrieve products with optional filtering.
+- **skip**: Number of products to skip (pagination)
+- **limit**: Maximum number of products to return
+- **category**: Filter by product category
+"""
 ```
 
 ---
@@ -416,15 +410,15 @@ from typing import AsyncIterator
 
 @lru_cache(maxsize=1000)
 def expensive_calculation(n: int) -> int:
-    """Cache results of expensive calculations."""
-    return result
+"""Cache results of expensive calculations."""
+return result
 
 async def process_large_dataset() -> AsyncIterator[dict]:
-    """Process large dataset without loading all into memory."""
-    async with aiofiles.open('large_file.json', mode='r') as f:
-        async for line in f:
-            data = json.loads(line)
-            yield process_item(data)
+"""Process large dataset without loading all into memory."""
+async with aiofiles.open('large_file.json', mode='r') as f:
+async for line in f:
+data = json.loads(line)
+yield process_item(data)
 ```
 
 ---
@@ -451,16 +445,16 @@ import secrets
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_password(password: str) -> str:
-    """Hash password using bcrypt."""
-    return pwd_context.hash(password)
+"""Hash password using bcrypt."""
+return pwd_context.hash(password)
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify password against hash."""
-    return pwd_context.verify(plain_password, hashed_password)
+"""Verify password against hash."""
+return pwd_context.verify(plain_password, hashed_password)
 
 def generate_secure_token(length: int = 32) -> str:
-    """Generate cryptographically secure random token."""
-    return secrets.token_urlsafe(length)
+"""Generate cryptographically secure random token."""
+return secrets.token_urlsafe(length)
 ```
 
 ---
@@ -494,11 +488,11 @@ logger = structlog.get_logger()
 
 # Log with context
 logger.info(
-    "payment_processed",
-    user_id=user.id,
-    amount=amount,
-    currency="USD",
-    processing_time=processing_time
+"payment_processed",
+user_id=user.id,
+amount=amount,
+currency="USD",
+processing_time=processing_time
 )
 ```
 
@@ -533,8 +527,8 @@ rg --files -g "*.py"
 
 ```
 main (protected) ←── PR ←── feature/your-feature
-  ↓                           ↑
-deploy                   development
+↓ ↑
+deploy development
 ```
 
 ### Daily Workflow
@@ -544,6 +538,17 @@ deploy                   development
 3. Make changes + tests
 4. `git push origin feature/new-feature`
 5. Create PR → Review → Merge to main
+
+### Commit Message Standard
+
+**IMPORTANT**: Do NOT include the following text in commit messages:
+```
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+This attribution should be excluded from all commits to maintain clean git history.
 </github_flow>
 
 ---
